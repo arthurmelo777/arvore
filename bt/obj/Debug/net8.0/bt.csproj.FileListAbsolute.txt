@@ -1,0 +1,15 @@
+/workspaces/arvore/bt/bin/Debug/net8.0/bt
+/workspaces/arvore/bt/bin/Debug/net8.0/bt.deps.json
+/workspaces/arvore/bt/bin/Debug/net8.0/bt.runtimeconfig.json
+/workspaces/arvore/bt/bin/Debug/net8.0/bt.dll
+/workspaces/arvore/bt/bin/Debug/net8.0/bt.pdb
+/workspaces/arvore/bt/obj/Debug/net8.0/bt.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/arvore/bt/obj/Debug/net8.0/bt.AssemblyInfoInputs.cache
+/workspaces/arvore/bt/obj/Debug/net8.0/bt.AssemblyInfo.cs
+/workspaces/arvore/bt/obj/Debug/net8.0/bt.csproj.CoreCompileInputs.cache
+/workspaces/arvore/bt/obj/Debug/net8.0/bt.sourcelink.json
+/workspaces/arvore/bt/obj/Debug/net8.0/bt.dll
+/workspaces/arvore/bt/obj/Debug/net8.0/refint/bt.dll
+/workspaces/arvore/bt/obj/Debug/net8.0/bt.pdb
+/workspaces/arvore/bt/obj/Debug/net8.0/bt.genruntimeconfig.cache
+/workspaces/arvore/bt/obj/Debug/net8.0/ref/bt.dll
