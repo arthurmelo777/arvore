@@ -50,9 +50,17 @@ class Tree : ITree {
         return !isExternal(n);
     }
 
-    //public int depth (Node<T> n) { }
+    public int depth (Node n) {
+        if (isRoot(n)) return 0;
+        else return 1 + depth(n.Parent);
+    }
 
-    //public int height (Node<T> n) { }
+    public int height (Node n) {
+        if (isExternal(n)) return 0;
+        else {
+            return 1 + Math.Max(height(n.LeftChild), height(n.RightChild));
+        }
+    }
 
     public bool search (int v) {
         return search(root, v);
