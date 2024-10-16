@@ -86,6 +86,7 @@ class Tree : ITree {
     }
     
     public Node insert (int v) { 
+        // Arvore vazia
         if (root == null) {
             root = new Node(null, v);
             return root;
@@ -116,11 +117,55 @@ class Tree : ITree {
     }
 
     public void printTree () {
+        int x = size;
+        int y = depth(root);
 
+        Node[] elements = new Node[size];
+        int [,] matrix = new int[x,y];
+
+        elements = setElements();
+        setMatriz(matrix, elements);
+        printMatriz(matrix, x, y);
+    }
+
+    private void printMatriz (int[,] m, int x, int y) {
+        for (int i = 0; i < y; i++) {
+            for (int j = 0; j < x; j++) {
+                Console.Write(m[i, j]);
+            }
+            Console.WriteLine();
+        }
+    }
+
+    private void setMatriz (int[,] m, Node[] elements) {
+        for (int i = 0; i < size; i++) {
+            Console.WriteLine(elements[i].Value);
+            Console.WriteLine(i + " " + elements[i] + depth(elements[i]));
+            m[depth(elements[i]), i] = elements[i].Value;
+        }
+    }
+
+    private Node[] setElements () {
+        Node[] elements = new Node[size];
+
+        setElement(root, elements, 0);
+
+        return elements;
+    }
+
+    private int setElement (Node n, Node[] elements, int i) {
+        if (n is null) return i;
+        
+        i = setElement(n.LeftChild, elements, i);
+        elements[i++] = n;
+        i = setElement(n.RightChild, elements, i);
+
+        return i;
     }
     
     public Tree (int v) {
         Node r = new Node(null, v);
         root = r;
+        size++;
     }
 }
