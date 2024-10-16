@@ -100,16 +100,6 @@ class Tree : ITree {
         return n;
     }
 
-    public int replace (int v, int x) { 
-        Node w = search(v);
-        if (w.Value != v) { throw new Exception("Valor não existe!"); }
-        else {
-            int r = w.Value;
-            w.Value = x;
-            return r;
-        }
-    }
-
     //public int remove (int v) { }
 
     public void printElements () {
