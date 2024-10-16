@@ -38,6 +38,10 @@ class Tree : ITree {
         get {return size;}
     }
 
+    public Node Root {
+        get {return root;}
+    }
+
     public bool isRoot (Node n) {
         return root == n;
     }
@@ -56,25 +60,77 @@ class Tree : ITree {
     }
 
     public int height (Node n) {
-        if (isExternal(n)) return 0;
+        if (n is null || isExternal(n)) return 0;
         else {
             return 1 + Math.Max(height(n.LeftChild), height(n.RightChild));
         }
     }
 
-    public bool search (int v) {
+    public Node search (int v) {
         return search(root, v);
     }
 
-    public bool search (Node n, int v) {
-        if (n == null) {return false;}
-        if (v == n.Value) {return true;}
-        if (v < n.Value) {return search(n.LeftChild, v);}
-        if (v > n.Value) {return search(n.RightChild, v);}
-        return false;
+    private Node search (Node n, int v) {
+        // Verifica se é externo
+        if (isExternal(n)) { return n; }
+        // Valor menor -> Caminha pra esquerda
+        if (v < n.Value) {
+            if (n.LeftChild != null) return search(n.LeftChild, v);
+        }
+        // Valor maior -> Caminha pra direita
+        if (v > n.Value) {
+            if (n.RightChild != null) return search(n.RightChild, v);
+        }
+        // Valor igual -> Retorna o nó
+        return n;
     }
     
-    //public void insert (int v) { }
+    public Node insert (int v) { 
+        if (root == null) {
+            root = new Node(null, v);
+            return root;
+        }
+        
+        Node w = search(v);
+        Node n = new Node(w, v);
+        if (v < w.Value) { w.LeftChild = n; }
+        if (v > w.Value) { w.RightChild = n; }        
+        size++;
+
+        return n;
+    }
+
+    public int replace (int v, int x) { 
+        Node w = search(v);
+        if (w.Value != v) { throw new Exception("Valor não existe!"); }
+        else {
+            int r = w.Value;
+            w.Value = x;
+            return r;
+        }
+    }
+
     //public int remove (int v) { }
-    //public int replace (int v) { }
+
+    public void printElements () {
+        Console.Write("(");
+        printElement(root);
+        Console.WriteLine(")");
+    }
+
+    private void printElement (Node n) {
+        if (n is null) return;
+        if (isInternal(n)) { printElement(n.LeftChild); }
+        Console.Write(" " + n.Value + " ");
+        if (isInternal(n)) { printElement(n.RightChild); }
+    }
+
+    public void printTree () {
+
+    }
+    
+    public Tree (int v) {
+        Node r = new Node(null, v);
+        root = r;
+    }
 }
