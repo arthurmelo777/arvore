@@ -117,30 +117,34 @@ class Tree : ITree {
     }
 
     public void printTree () {
-        int x = size;
-        int y = depth(root);
-
         Node[] elements = new Node[size];
-        int [,] matrix = new int[x,y];
-
         elements = setElements();
+        
+        int [,] matrix = new int[depth(elements[0])+1,size];
         setMatriz(matrix, elements);
-        printMatriz(matrix, x, y);
+        printMatriz(matrix, depth(elements[0])+1, size);
     }
 
     private void printMatriz (int[,] m, int x, int y) {
-        for (int i = 0; i < y; i++) {
-            for (int j = 0; j < x; j++) {
-                Console.Write(m[i, j]);
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                if (m[i,j] == 0) Console.Write("    ");
+                else Console.Write(" " + m[i, j] + " ");
             }
             Console.WriteLine();
         }
     }
 
     private void setMatriz (int[,] m, Node[] elements) {
+        //Inicia matriz
+        for (int i = 0; i < depth(elements[0]); i++) {
+            for (int j = 0; j < size; j++) {
+                m[i, j] = 0;
+            }
+        }
+
+        //Atribui elementos
         for (int i = 0; i < size; i++) {
-            Console.WriteLine(elements[i].Value);
-            Console.WriteLine(i + " " + elements[i] + depth(elements[i]));
             m[depth(elements[i]), i] = elements[i].Value;
         }
     }
