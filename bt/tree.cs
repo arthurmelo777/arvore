@@ -101,9 +101,119 @@ class Tree : ITree {
         return n;
     }
 
-    //public int remove (int v) { }
+    public Node remove (int v) { 
+        Node w = search(v);
+
+        if (w.Value != v) throw new Exception("Valor nao encontrado");
+
+        int type = caseType(w);
+
+        switch (type) {
+            case 0:
+                removeRoot();
+            break;
+            case 1:
+                removeLeaf(w);
+            break;
+            case 2:
+                removeTwoChilds(w);
+            break;
+            case 3:
+                removeOneChild(w);
+            break;
+        }
+
+        return w;
+     }
+
+    private int caseType (Node n) {
+        //Caso 0 - No raiz
+        if (n == root && isExternal(n)) return 0;
+        //Caso 1 - No folha
+        if (isExternal(n)) return 1;
+        //Caso 2 - No com dois filhos
+        if (n.LeftChild != null && n.RightChild != null) return 2;
+        //Caso 3 - No com um filho
+        if (n.LeftChild != null || n.RightChild != null) return 3;
+        return -1;
+    }
+
+    private void removeRoot () {
+        root = null;
+        size--;
+    }
+
+    private void removeLeaf (Node n) {
+        Node w = n.Parent;
+        //Verifica de que lado n é filho e seta como nulo
+        if (n == w.LeftChild) w.LeftChild = null;
+        else w.RightChild = null;
+        size--;
+    }
+
+    private void removeOneChild (Node n) {
+        Node w = n.Parent;
+        Node z;
+
+        //Verifica de que lado está o filho de n
+        if (n.LeftChild != null) z = n.LeftChild;
+        else z = n.RightChild;
+
+        //Verifica de que lado n é filho e seta como z
+        if (n == w.LeftChild) {
+            w.LeftChild = z;
+            z.Parent = w;
+        }
+        else {
+            w.RightChild = z;
+            z.Parent = w;
+        }
+        size--;
+    }
+
+    private void removeTwoChilds (Node n) {
+        Node s = findSuccessor(n.RightChild);
+        Node rcs = null;// RightChildOfSuccessor;
+
+        //Seta, se houver, o filho direito do sucessor
+        if (isInternal(s)) rcs = s.RightChild; 
+
+        //No raiz
+        if (n == root) {
+            //Modifica os filhos do no removido
+            n.LeftChild.Parent = s;
+            n.RightChild.Parent = s;
+            //Modifica o filho esquerdo do pai do sucessor
+            s.Parent.LeftChild = rcs;
+            //Modifica o filho direito do pai do sucessor
+            if (rcs is not null) rcs.Parent = s.Parent;
+            //Modifica o sucessor
+            s.LeftChild = n.LeftChild;
+            s.RightChild = n.RightChild;
+        }
+        else {
+            //Modifica os filhos do no removido
+            n.LeftChild.Parent = s;
+            n.RightChild.Parent = s;
+            //Modifica o filho esquerdo do pai do sucessor
+            s.Parent.LeftChild = rcs;
+            //Modifica o filho direito do pai do sucessor
+            if (rcs is not null) rcs.Parent = s.Parent;
+            //Modifica o sucessor
+            s.LeftChild = n.LeftChild;
+            s.RightChild = n.RightChild;
+            s.Parent = n.Parent;
+        }
+        size--;
+    }
+
+    public Node findSuccessor (Node n) {
+        if (n.LeftChild != null) return findSuccessor(n.LeftChild);
+        return n;
+    }
 
     public void printElements () {
+        if (size == 0) throw new Exception("Arvore Vazia");
         Console.Write("(");
         printElement(root);
         Console.WriteLine(")");
@@ -117,12 +227,12 @@ class Tree : ITree {
     }
 
     public void printTree () {
-        Node[] elements = new Node[size];
-        elements = setElements();
+        if (size == 0) throw new Exception("Arvore Vazia");
+        Node[] elements = setElements();
         
-        int [,] matrix = new int[depth(elements[0])+1,size];
+        int [,] matrix = new int[height(root)+1,size];
         setMatriz(matrix, elements);
-        printMatriz(matrix, depth(elements[0])+1, size);
+        printMatriz(matrix, height(root)+1, size);
     }
 
     private void printMatriz (int[,] m, int x, int y) {
@@ -137,7 +247,7 @@ class Tree : ITree {
 
     private void setMatriz (int[,] m, Node[] elements) {
         //Inicia matriz
-        for (int i = 0; i < depth(elements[0]); i++) {
+        for (int i = 0; i < height(root); i++) {
             for (int j = 0; j < size; j++) {
                 m[i, j] = 0;
             }

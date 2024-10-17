@@ -15,15 +15,19 @@ class Program {
         //Adiciona filhos na extrema esquerda
         t.insert(20);
 
-        t.insert(10);
-
-        t.insert(5);
-
         t.insert(60);
         t.insert(30);
         t.insert(80);
+        t.insert(70);
+        t.insert(65);
 
         //Printa arvore
+        t.printTree();
+
+        t.remove(75);
+
+        //t.printElements();
+
         t.printTree();
 
         //Verifica altura e profundidade
