@@ -4,6 +4,10 @@ class Program {
     public static void Main (string[] args) {
         Tree t = new Tree(50);
 
+        t.printTree();
+        
+        Console.WriteLine("------------------------------");
+
         //GetRaiz
         //Console.WriteLine(t.Root.Value);
 
@@ -12,7 +16,7 @@ class Program {
 
         t.insert(75);
 
-        //Adiciona filhos na extrema esquerda
+        //Adiciona filhos
         t.insert(20);
 
         t.insert(60);
@@ -23,6 +27,8 @@ class Program {
 
         //Printa arvore
         t.printTree();
+
+        Console.WriteLine("------------------------------");
 
         t.remove(75);
 

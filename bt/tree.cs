@@ -1,3 +1,5 @@
+using System.Collections;
+
 class Node : INode {
     private int value;
     private Node? parent, leftChild, rightChild;
@@ -33,6 +35,7 @@ class Node : INode {
 class Tree : ITree {
     private int size = 0;
     private Node root;
+    private ArrayList elements = new ArrayList();
 
     public int Size {
         get {return size;}
@@ -173,36 +176,11 @@ class Tree : ITree {
 
     private void removeTwoChilds (Node n) {
         Node s = findSuccessor(n.RightChild);
-        Node rcs = null;// RightChildOfSuccessor;
 
-        //Seta, se houver, o filho direito do sucessor
-        if (isInternal(s)) rcs = s.RightChild; 
-
-        //No raiz
-        if (n == root) {
-            //Modifica os filhos do no removido
-            n.LeftChild.Parent = s;
-            n.RightChild.Parent = s;
-            //Modifica o filho esquerdo do pai do sucessor
-            s.Parent.LeftChild = rcs;
-            //Modifica o filho direito do pai do sucessor
-            if (rcs is not null) rcs.Parent = s.Parent;
-            //Modifica o sucessor
-            s.LeftChild = n.LeftChild;
-            s.RightChild = n.RightChild;
-        }
-        else {
-            //Modifica os filhos do no removido
-            n.LeftChild.Parent = s;
-            n.RightChild.Parent = s;
-            //Modifica o filho esquerdo do pai do sucessor
-            s.Parent.LeftChild = rcs;
-            //Modifica o filho direito do pai do sucessor
-            if (rcs is not null) rcs.Parent = s.Parent;
-            //Modifica o sucessor
-            s.LeftChild = n.LeftChild;
-            s.RightChild = n.RightChild;
-            s.Parent = n.Parent;
+        if (s is not null) {
+            int t = s.Value;
+            remove(t);
+            n.Value = t;
         }
         size--;
     }
@@ -228,7 +206,9 @@ class Tree : ITree {
 
     public void printTree () {
         if (size == 0) throw new Exception("Arvore Vazia");
-        Node[] elements = setElements();
+
+        elements = new ArrayList();
+        setElements(root);
         
         int [,] matrix = new int[height(root)+1,size];
         setMatriz(matrix, elements);
@@ -238,43 +218,36 @@ class Tree : ITree {
     private void printMatriz (int[,] m, int x, int y) {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
-                if (m[i,j] == 0) Console.Write("    ");
-                else Console.Write(" " + m[i, j] + " ");
+                if (m[i,j] == 0) Console.Write("   ");
+                else Console.Write("" + m[i, j] + " ");
             }
             Console.WriteLine();
         }
     }
 
-    private void setMatriz (int[,] m, Node[] elements) {
+    private void setMatriz (int[,] m, ArrayList elements) {
+        int i = 0;
         //Inicia matriz
-        for (int i = 0; i < height(root); i++) {
+        for (i = 0; i < height(root); i++) {
             for (int j = 0; j < size; j++) {
                 m[i, j] = 0;
             }
         }
 
         //Atribui elementos
-        for (int i = 0; i < size; i++) {
-            m[depth(elements[i]), i] = elements[i].Value;
+        i = 0;
+        foreach (object obj in elements) {
+            //Console.WriteLine($"D = {depth((Node)obj)}; I = {i}; V = {((Node)obj).Value}");
+            Console.WriteLine(depth((Node)obj));
+            m[depth((Node)obj), i] = ((Node)obj).Value;
+            i++;
         }
     }
 
-    private Node[] setElements () {
-        Node[] elements = new Node[size];
-
-        setElement(root, elements, 0);
-
-        return elements;
-    }
-
-    private int setElement (Node n, Node[] elements, int i) {
-        if (n is null) return i;
-        
-        i = setElement(n.LeftChild, elements, i);
-        elements[i++] = n;
-        i = setElement(n.RightChild, elements, i);
-
-        return i;
+    private void setElements (Node n) {
+        if (isInternal(n) && n.LeftChild is not null) setElements(n.LeftChild);
+        elements.Add(n);
+        if (isInternal(n) && n.RightChild is not null) setElements(n.RightChild);
     }
     
     public Tree (int v) {
