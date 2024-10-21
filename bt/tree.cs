@@ -219,7 +219,7 @@ class Tree : ITree {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 if (m[i,j] == 0) Console.Write("   ");
-                else Console.Write("" + m[i, j] + " ");
+                Console.Write("" + m[i, j] + " ");
             }
             Console.WriteLine();
         }
@@ -237,8 +237,8 @@ class Tree : ITree {
         //Atribui elementos
         i = 0;
         foreach (object obj in elements) {
-            //Console.WriteLine($"D = {depth((Node)obj)}; I = {i}; V = {((Node)obj).Value}");
-            Console.WriteLine(depth((Node)obj));
+            Console.WriteLine($"D = {depth((Node)obj)}; I = {i}; V = {((Node)obj).Value}");
+            //Console.WriteLine(depth((Node)obj));
             m[depth((Node)obj), i] = ((Node)obj).Value;
             i++;
         }
