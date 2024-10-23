@@ -107,8 +107,14 @@ class Tree {
 
         return n;
     }
+    
+    public Node remove (int v) {
+        Node w = removeNo(v);
+        size--;
+        return w;
+    }
 
-    public Node remove (int v) { 
+    public Node removeNo (int v) { 
         Node w = search(v);
 
         if (w.Value != v) throw new Exception("Valor nao encontrado");
@@ -129,7 +135,6 @@ class Tree {
                 removeOneChild(w);
             break;
         }
-        size--;
         return w;
      }
 
@@ -180,7 +185,7 @@ class Tree {
 
         if (s is not null) {
             int t = s.Value;
-            remove(t);
+            removeNo(t);
             n.Value = t;
         }
     }
@@ -210,9 +215,9 @@ class Tree {
         elements = new ArrayList();
         setElements(root);
         
-        int [,] matrix = new int[height(root)+1,elements.Count];
+        int [,] matrix = new int[height(root)+1,size];
         setMatriz(matrix, elements);
-        printMatriz(matrix, height(root)+1, elements.Count);
+        printMatriz(matrix, height(root)+1, size);
     }
 
     private void printMatriz (int[,] m, int x, int y) {
@@ -229,7 +234,7 @@ class Tree {
         int i = 0;
         //Inicia matriz
         for (i = 0; i < height(root); i++) {
-            for (int j = 0; j < elements.Count; j++) {
+            for (int j = 0; j < size; j++) {
                 m[i, j] = 0;
             }
         }
@@ -237,8 +242,6 @@ class Tree {
         //Atribui elementos
         i = 0;
         foreach (object obj in elements) {
-            //Console.WriteLine($"D = {depth((Node)obj)}; I = {i}; V = {((Node)obj).Value}");
-            //Console.WriteLine(depth((Node)obj));
             m[depth((Node)obj), i] = ((Node)obj).Value;
             i++;
         }
