@@ -15,7 +15,17 @@ class Program {
         t.insert(25);
 
         t.insert(75);
-
+        
+        t.printTree();
+        
+        Console.WriteLine("------------------------------");
+        
+        //t.remove(50);
+    
+        //t.printTree();
+        
+        //Console.WriteLine("------------------------------");
+    
         //Adiciona filhos
         t.insert(20);
 
@@ -31,6 +41,22 @@ class Program {
         Console.WriteLine("------------------------------");
 
         t.remove(75);
+
+        //t.printElements();
+
+        t.printTree();
+        
+        Console.WriteLine("------------------------------");
+        
+        t.remove(60);
+
+        //t.printElements();
+
+        t.printTree();
+        
+        Console.WriteLine("------------------------------");
+        
+        t.remove(65);
 
         //t.printElements();
 
