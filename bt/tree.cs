@@ -1,6 +1,6 @@
 using System.Collections;
 
-class Node : INode {
+class Node {
     private int value;
     private Node? parent, leftChild, rightChild;
 
@@ -30,9 +30,13 @@ class Node : INode {
         leftChild = null;
         rightChild = null;
     }
+    
+    public override string ToString () {
+        return "Elemento = " + Value;
+    }
 }
 
-class Tree : ITree {
+class Tree {
     private int size = 0;
     private Node root;
     private ArrayList elements = new ArrayList();
@@ -125,7 +129,7 @@ class Tree : ITree {
                 removeOneChild(w);
             break;
         }
-
+        size--;
         return w;
      }
 
@@ -143,7 +147,6 @@ class Tree : ITree {
 
     private void removeRoot () {
         root = null;
-        size--;
     }
 
     private void removeLeaf (Node n) {
@@ -151,7 +154,6 @@ class Tree : ITree {
         //Verifica de que lado n é filho e seta como nulo
         if (n == w.LeftChild) w.LeftChild = null;
         else w.RightChild = null;
-        size--;
     }
 
     private void removeOneChild (Node n) {
@@ -171,7 +173,6 @@ class Tree : ITree {
             w.RightChild = z;
             z.Parent = w;
         }
-        size--;
     }
 
     private void removeTwoChilds (Node n) {
@@ -182,7 +183,6 @@ class Tree : ITree {
             remove(t);
             n.Value = t;
         }
-        size--;
     }
 
     public Node findSuccessor (Node n) {
@@ -210,16 +210,16 @@ class Tree : ITree {
         elements = new ArrayList();
         setElements(root);
         
-        int [,] matrix = new int[height(root)+1,size];
+        int [,] matrix = new int[height(root)+1,elements.Count];
         setMatriz(matrix, elements);
-        printMatriz(matrix, height(root)+1, size);
+        printMatriz(matrix, height(root)+1, elements.Count);
     }
 
     private void printMatriz (int[,] m, int x, int y) {
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 if (m[i,j] == 0) Console.Write("   ");
-                Console.Write("" + m[i, j] + " ");
+                else Console.Write("" + m[i, j] + " ");
             }
             Console.WriteLine();
         }
@@ -229,7 +229,7 @@ class Tree : ITree {
         int i = 0;
         //Inicia matriz
         for (i = 0; i < height(root); i++) {
-            for (int j = 0; j < size; j++) {
+            for (int j = 0; j < elements.Count; j++) {
                 m[i, j] = 0;
             }
         }
@@ -237,7 +237,7 @@ class Tree : ITree {
         //Atribui elementos
         i = 0;
         foreach (object obj in elements) {
-            Console.WriteLine($"D = {depth((Node)obj)}; I = {i}; V = {((Node)obj).Value}");
+            //Console.WriteLine($"D = {depth((Node)obj)}; I = {i}; V = {((Node)obj).Value}");
             //Console.WriteLine(depth((Node)obj));
             m[depth((Node)obj), i] = ((Node)obj).Value;
             i++;
