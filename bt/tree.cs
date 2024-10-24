@@ -1,6 +1,7 @@
 using System.Collections;
 
-class Node {
+namespace BinaryTree {
+public class Node {
     private int value;
     private Node? parent, leftChild, rightChild;
 
@@ -36,7 +37,7 @@ class Node {
     }
 }
 
-class Tree {
+public class Tree {
     private int size = 0;
     private Node root;
     private ArrayList elements = new ArrayList();
@@ -258,4 +259,5 @@ class Tree {
         root = r;
         size++;
     }
+}
 }

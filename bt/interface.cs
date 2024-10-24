@@ -1,16 +1,18 @@
-interface INode {
+namespace IBinaryTree {
+public interface INode {
     
 }
 
-interface ITree {
-    public abstract bool isRoot (Node n);
-    public abstract bool isExternal (Node n);
-    public abstract bool isInternal (Node n);
-    public abstract int depth (Node n);
-    public abstract int height (Node n);
-    public abstract Node search (int v);
-    public abstract Node insert (int v);
-    public abstract Node remove (int v);
+public interface ITree {
+    public abstract bool isRoot (INode n);
+    public abstract bool isExternal (INode n);
+    public abstract bool isInternal (INode n);
+    public abstract int depth (INode n);
+    public abstract int height (INode n);
+    public abstract INode search (int v);
+    public abstract INode insert (int v);
+    public abstract INode remove (int v);
     public abstract void printElements ();
     public abstract void printTree ();
+}
 }
