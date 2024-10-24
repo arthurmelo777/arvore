@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/workspaces/arvore/bt/bt.csproj": {}
+    "/workspaces/arvore/binarysearchtree/bt.csproj": {}
   },
   "projects": {
-    "/workspaces/arvore/bt/bt.csproj": {
+    "/workspaces/arvore/binarysearchtree/bt.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/arvore/bt/bt.csproj",
+        "projectUniqueName": "/workspaces/arvore/binarysearchtree/bt.csproj",
         "projectName": "bt",
-        "projectPath": "/workspaces/arvore/bt/bt.csproj",
+        "projectPath": "/workspaces/arvore/binarysearchtree/bt.csproj",
         "packagesPath": "/home/codespace/.nuget/packages/",
-        "outputPath": "/workspaces/arvore/bt/obj/",
+        "outputPath": "/workspaces/arvore/binarysearchtree/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/codespace/.nuget/NuGet/NuGet.Config"
