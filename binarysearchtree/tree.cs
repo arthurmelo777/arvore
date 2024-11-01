@@ -33,7 +33,7 @@ namespace BinaryTree {
         }
         
         public override string ToString () {
-            return "Elemento = " + Value;
+            return "Elemento = " + value;
         }
     }
 
