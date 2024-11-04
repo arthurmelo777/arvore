@@ -7,30 +7,14 @@
   "targets": {
     ".NETCoreApp,Version=v8.0": {
       "avltree/1.0.0": {
-        "dependencies": {
-          "bt": "1.0.0"
-        },
         "runtime": {
           "avltree.dll": {}
-        }
-      },
-      "bt/1.0.0": {
-        "runtime": {
-          "bt.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
         }
       }
     }
   },
   "libraries": {
     "avltree/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "bt/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

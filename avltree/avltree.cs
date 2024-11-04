@@ -2,7 +2,7 @@ using System.Collections;
 
 namespace AVLBinaryTree {
     public class AVLNode {
-        private int value;
+        private int value, fb;
         private AVLNode? parent, leftChild, rightChild;
 
         public int Value {
@@ -25,15 +25,21 @@ namespace AVLBinaryTree {
             set {rightChild = value;}
         }
 
+        public int Fb {
+            get {return fb;}
+            set {fb = value;}
+        }
+
         public AVLNode (AVLNode p, int v) {
             value = v;
             parent = p;
+            fb = 0;
             leftChild = null;
             rightChild = null;
         }
         
         public override string ToString () {
-            return "Elemento = " + value;
+            return $"Elemento = {value}, FB = {fb}";
         }
     }
 

@@ -13,10 +13,3 @@
 /workspaces/arvore/avltree/obj/Debug/net8.0/avltree.pdb
 /workspaces/arvore/avltree/obj/Debug/net8.0/avltree.genruntimeconfig.cache
 /workspaces/arvore/avltree/obj/Debug/net8.0/ref/avltree.dll
-/workspaces/arvore/avltree/bin/Debug/net8.0/bt.deps.json
-/workspaces/arvore/avltree/bin/Debug/net8.0/bt.runtimeconfig.json
-/workspaces/arvore/avltree/bin/Debug/net8.0/bt
-/workspaces/arvore/avltree/bin/Debug/net8.0/bt.dll
-/workspaces/arvore/avltree/bin/Debug/net8.0/bt.pdb
-/workspaces/arvore/avltree/obj/Debug/net8.0/avltree.csproj.AssemblyReference.cache
-/workspaces/arvore/avltree/obj/Debug/net8.0/avltree.csproj.Up2Date
