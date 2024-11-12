@@ -109,6 +109,7 @@ namespace AVLBinaryTree {
             }
             
             AVLNode w = search(v);
+            if (w.Value == v) throw new Exception("Valor já existe!");
             AVLNode n = new AVLNode(w, v);
             if (v < w.Value) { w.LeftChild = n; }
             if (v > w.Value) { w.RightChild = n; }        
@@ -213,15 +214,12 @@ namespace AVLBinaryTree {
                 else { n.Parent.Fb--; }
 
                 // Verifica se desbalanceou
-                Console.WriteLine(Math.Abs(n.Parent.Fb));
                 if (Math.Abs(n.Parent.Fb) > 1) {
-                    Console.WriteLine("entrou");
                     balance(n);
-                    Console.WriteLine("saiu");
+                    break;
                 }
-                Console.WriteLine("Antes: "+n+"; Pai: "+n.Parent);
+                
                 n = n.Parent;
-                Console.WriteLine("Depois: "+n+"; Pai: "+n.Parent);
             }
 
             return n;
@@ -231,10 +229,6 @@ namespace AVLBinaryTree {
             bool opposite = (isPositive(n.Parent.Fb) && !isPositive(n.Fb) || (!isPositive(n.Parent.Fb) && isPositive(n.Fb)));
             bool positive = isPositive(n.Parent.Fb);
 
-            Console.WriteLine("opposite = "+opposite+"; positive = "+positive);
-
-            //Console.WriteLine("Antes: "+n+"; Pai: "+n.Parent+"; Filho: "+n.LeftChild);
-
             // Rotação 1 - Esquerda simples
             if (!positive && !opposite) {
                 leftRotation(n.Parent, n, n.LeftChild, n.RightChild);
@@ -243,6 +237,7 @@ namespace AVLBinaryTree {
             if (positive && !opposite) {
                 rightRotation(n.Parent, n, n.LeftChild, n.RightChild);
             }
+            // NAO TA FUNCIONANDO CORRIJA
             // Rotação 3 - Esquerda dupla
             if (!positive && opposite) {
                 rightRotation(n.Parent, n, n.LeftChild, n.RightChild);
@@ -256,22 +251,47 @@ namespace AVLBinaryTree {
         }
 
         private void leftRotation (AVLNode p, AVLNode n, AVLNode lc, AVLNode rc) {
-
-        }
-
-        private void rightRotation (AVLNode p, AVLNode n, AVLNode lc, AVLNode rc) {
-            Console.WriteLine("Antes: "+n+"; Pai: "+n.Parent+"; Filho esquerdo: "+lc+"; Filho direito: "+rc);
-
             // Pai do pai vira pai do no
             if (p == root) {
                 root = n;
                 n.Parent = null;
             }
             else {
-                AVLNode aux = p.Parent;
-                n.Parent = aux;
-                if (aux.LeftChild == p) aux.LeftChild = n;
-                else aux.RightChild = n;
+                AVLNode avo = p.Parent;
+                n.Parent = avo;
+                if (avo.LeftChild == p) avo.LeftChild = n;
+                else avo.RightChild = n;
+            }
+
+            // Filho esquerdo do no vira filho direito do pai
+            if (lc is null) {
+                p.RightChild = lc;
+            }
+            else {
+                p.RightChild = lc;
+                lc.Parent = p;
+            }
+
+            // Pai vira filho esquerdo do no
+            n.LeftChild = p;
+            p.Parent = n;
+
+            // Atualiza fb
+            p.Fb = p.Fb + 1 - Math.Min(n.Fb, 0);
+            n.Fb = n.Fb + 1 + Math.Max(p.Fb, 0);
+        }
+
+        private void rightRotation (AVLNode p, AVLNode n, AVLNode lc, AVLNode rc) {
+            // Pai do pai vira pai do no
+            if (p == root) {
+                root = n;
+                n.Parent = null;
+            }
+            else {
+                AVLNode avo = p.Parent;
+                n.Parent = avo;
+                if (avo.LeftChild == p) avo.LeftChild = n;
+                else avo.RightChild = n;
             }
 
             // Filho direito do no vira filho esquerdo do pai
