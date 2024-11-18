@@ -2,34 +2,35 @@
 
 class Program {
     public static void Main(string[] args) {
-        AVLTree at = new AVLTree(10);
-        at.printTree();
-        Console.WriteLine("----------------------");
-        at.insertAVL(20);
-        at.printTree();
-        Console.WriteLine("----------------------");
-        at.insertAVL(30);
-        at.printTree();
-        Console.WriteLine("----------------------");
+        AVLTree at = new AVLTree(1);
+        //at.printTree();
+        //Console.WriteLine("----------------------");
         at.insertAVL(40);
-        at.printTree();
-        Console.WriteLine("----------------------");
+        //at.printTree();
+        //Console.WriteLine("----------------------");
         at.insertAVL(50);
-        at.printTree();
-        Console.WriteLine("----------------------");
+        //at.printTree();
+        //Console.WriteLine("----------------------");
+        at.insertAVL(75);
+        //at.printTree();
+        //Console.WriteLine("----------------------");
         at.insertAVL(25);
-        at.printTree();
-        Console.WriteLine("----------------------");
+        //at.printTree();
+        //Console.WriteLine("----------------------");
         at.insertAVL(60);
+        //at.printTree();
+        //Console.WriteLine("----------------------");
+        at.insertAVL(100);
         at.printTree();
         Console.WriteLine("----------------------");
-        at.insertAVL(70);
+        // REMOVER
+        at.removeAVL(100);
         at.printTree();
         Console.WriteLine("----------------------");
-        at.insertAVL(80);
+        at.removeAVL(25);
         at.printTree();
         Console.WriteLine("----------------------");
-        at.insertAVL(90);
+        at.removeAVL(60);
         at.printTree();
         Console.WriteLine("----------------------");
     }

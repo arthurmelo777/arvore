@@ -208,6 +208,7 @@ namespace AVLBinaryTree {
         // Metodos AVL
         public AVLNode insertAVL (int v) {
             AVLNode n = insert(v);
+            AVLNode i = n;
             while (n.Parent is not null) {
                 // Atualiza fator de balanceamento
                 if (n.Parent.LeftChild == n) { n.Parent.Fb++; }
@@ -222,7 +223,40 @@ namespace AVLBinaryTree {
                 n = n.Parent;
             }
 
-            return n;
+            return i;
+        }
+
+        public AVLNode removeAVL (int v) {
+            /*AVLNode n = search(v);
+            AVLNode s;
+            if (caseType(n) == 2) { s = findSuccessor(n.RightChild); }
+            else { s = n; }*/
+
+            AVLNode n = remove(v);
+            //Console.WriteLine(s);
+            Console.WriteLine(n);
+            Console.WriteLine(n.Parent);
+            Console.WriteLine(n.LeftChild);
+            Console.WriteLine(n.Parent.LeftChild);
+            AVLNode r = n;
+            
+            while (n.Parent is not null) {
+                // Atualiza fator de balanceamento
+                if (n.Parent.LeftChild == n) {n.Parent.Fb--;}
+                else { n.Parent.Fb++; }
+
+                // Verifica se desbalanceou
+                if (Math.Abs(n.Parent.Fb) > 1) {
+                    balance(n);
+                    break;
+                }
+
+                if (n.Parent.Fb != 0) break;
+
+                n = n.Parent;
+            }
+
+            return r;
         }
 
         private void balance (AVLNode n) {
@@ -231,26 +265,35 @@ namespace AVLBinaryTree {
 
             // Rotação 1 - Esquerda simples
             if (!positive && !opposite) {
-                leftRotation(n.Parent, n, n.LeftChild, n.RightChild);
+                leftRotation(n.Parent, n);
             }
             // Rotação 2 - Direita simples
             if (positive && !opposite) {
-                rightRotation(n.Parent, n, n.LeftChild, n.RightChild);
+                rightRotation(n.Parent, n);
             }
-            // NAO TA FUNCIONANDO CORRIJA
             // Rotação 3 - Esquerda dupla
             if (!positive && opposite) {
-                rightRotation(n.Parent, n, n.LeftChild, n.RightChild);
-                leftRotation(n.Parent, n, n.LeftChild, n.RightChild);
+                rightRotation(n, n.LeftChild);
+                leftRotation(n.Parent.Parent, n.Parent);
             }
             // Rotação 4 - Direita dupla
             if (positive && opposite) {
-                leftRotation(n.Parent, n, n.LeftChild, n.RightChild);
-                rightRotation(n.Parent, n, n.LeftChild, n.RightChild);
+                leftRotation(n, n.RightChild);
+                rightRotation(n.Parent.Parent, n.Parent);
             }
+
+            //printTree();
         }
 
-        private void leftRotation (AVLNode p, AVLNode n, AVLNode lc, AVLNode rc) {
+        private void leftRotation (AVLNode p, AVLNode n) {
+            AVLNode lc = null;
+            AVLNode rc = null;
+
+            if (n is not null) {
+                lc = n.LeftChild;
+                rc = n.RightChild;
+            }
+
             // Pai do pai vira pai do no
             if (p == root) {
                 root = n;
@@ -281,7 +324,10 @@ namespace AVLBinaryTree {
             n.Fb = n.Fb + 1 + Math.Max(p.Fb, 0);
         }
 
-        private void rightRotation (AVLNode p, AVLNode n, AVLNode lc, AVLNode rc) {
+        private void rightRotation (AVLNode p, AVLNode n) {
+            AVLNode lc = n.LeftChild;
+            AVLNode rc = n.RightChild;
+
             // Pai do pai vira pai do no
             if (p == root) {
                 root = n;
@@ -347,7 +393,7 @@ namespace AVLBinaryTree {
         private void printMatriz (int[,] m, string[,] mfb, int x, int y) {
             for (int i = 0; i < x; i++) {
                 for (int j = 0; j < y; j++) {
-                    if (m[i,j] == 0) Console.Write("      ");
+                    if (m[i,j] == 0) Console.Write("    ");
                     else Console.Write(""+m[i, j]+"⁽"+mfb[i, j]+"⁾");
                 }
                 Console.WriteLine();
