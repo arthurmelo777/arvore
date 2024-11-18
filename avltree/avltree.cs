@@ -227,31 +227,18 @@ namespace AVLBinaryTree {
         }
 
         public AVLNode removeAVL (int v) {
-            /*AVLNode n = search(v);
-            AVLNode s;
-            if (caseType(n) == 2) { s = findSuccessor(n.RightChild); }
-            else { s = n; }*/
-
             AVLNode n = remove(v);
-            //Console.WriteLine(s);
-            Console.WriteLine(n);
-            Console.WriteLine(n.Parent);
-            Console.WriteLine(n.LeftChild);
-            Console.WriteLine(n.Parent.LeftChild);
             AVLNode r = n;
             
             while (n.Parent is not null) {
                 // Atualiza fator de balanceamento
-                if (n.Parent.LeftChild == n) {n.Parent.Fb--;}
-                else { n.Parent.Fb++; }
+                n.Parent.Fb = height(n.Parent.LeftChild) - height(n.Parent.RightChild);
 
                 // Verifica se desbalanceou
                 if (Math.Abs(n.Parent.Fb) > 1) {
                     balance(n);
                     break;
                 }
-
-                if (n.Parent.Fb != 0) break;
 
                 n = n.Parent;
             }
