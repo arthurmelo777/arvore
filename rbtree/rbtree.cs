@@ -1,52 +1,52 @@
 using System.Collections;
-using System;
 
-namespace AVLBinaryTree {
-    public class AVLNode {
-        private int value, fb;
-        private AVLNode? parent, leftChild, rightChild;
+namespace RedBlackBinaryTree {
+    public class RBNode {
+        private int value;
+        private char color;
+        private RBNode? parent, leftChild, rightChild;
 
         public int Value {
             get {return value;}
             set {this.value = value;}
         }
 
-        public AVLNode Parent {
+        public char Color {
+            get {return color;}
+            set {color = value;}
+        }
+
+        public RBNode Parent {
             get {return parent;}
             set {parent = value;}
         }
 
-        public AVLNode LeftChild {
+        public RBNode LeftChild {
             get {return leftChild;}
             set {leftChild = value;}
         }
 
-        public AVLNode RightChild {
+        public RBNode RightChild {
             get {return rightChild;}
             set {rightChild = value;}
         }
 
-        public int Fb {
-            get {return fb;}
-            set {fb = value;}
-        }
-
-        public AVLNode (AVLNode p, int v) {
+        public RBNode (RBNode p, int v, char? c = 'R') {
             value = v;
             parent = p;
-            fb = 0;
             leftChild = null;
             rightChild = null;
+            color = c;
         }
         
         public override string ToString () {
-            return $"Elemento = {value}, FB = {fb}";
+            return $"Elemento = {value}, Cor = {color}";
         }
     }
 
-    public class AVLTree {
+    public class RBTree {
         private int size = 0;
-        private AVLNode root;
+        private RBNode root;
         private ArrayList elements = new ArrayList();
 
         // Metodos Arvore Binaria
@@ -54,39 +54,39 @@ namespace AVLBinaryTree {
             get {return size;}
         }
 
-        public AVLNode Root {
+        public RBNode Root {
             get {return root;}
         }
 
-        public bool isRoot (AVLNode n) {
+        public bool isRoot (RBNode n) {
             return root == n;
         }
 
-        public bool isExternal (AVLNode n) {
+        public bool isExternal (RBNode n) {
             return n.LeftChild == null && n.RightChild == null;
         }
 
-        public bool isInternal (AVLNode n) {
+        public bool isInternal (RBNode n) {
             return !isExternal(n);
         }
 
-        public int depth (AVLNode n) {
+        public int depth (RBNode n) {
             if (isRoot(n)) return 0;
             else return 1 + depth(n.Parent);
         }
 
-        public int height (AVLNode n) {
+        public int height (RBNode n) {
             if (n is null || isExternal(n)) return 0;
             else {
                 return 1 + Math.Max(height(n.LeftChild), height(n.RightChild));
             }
         }
 
-        public AVLNode search (int v) {
+        public RBNode search (int v) {
             return search(root, v);
         }
 
-        private AVLNode search (AVLNode n, int v) {
+        private RBNode search (RBNode n, int v) {
             // Verifica se é externo
             if (isExternal(n)) { return n; }
             // Valor menor -> Caminha pra esquerda
@@ -101,16 +101,15 @@ namespace AVLBinaryTree {
             return n;
         }
         
-        private AVLNode insert (int v) { 
+        private RBNode insert (int v) { 
             // Arvore vazia
             if (root == null) {
-                root = new AVLNode(null, v);
+                root = new RBNode(null, v);
                 return root;
             }
             
-            AVLNode w = search(v);
-            if (w.Value == v) throw new Exception("Valor já existe!");
-            AVLNode n = new AVLNode(w, v);
+            RBNode w = search(v);
+            RBNode n = new RBNode(w, v);
             if (v < w.Value) { w.LeftChild = n; }
             if (v > w.Value) { w.RightChild = n; }        
             size++;
@@ -118,14 +117,14 @@ namespace AVLBinaryTree {
             return n;
         }
         
-        private AVLNode remove (int v) {
-            AVLNode w = removeNo(v);
+        private RBNode remove (int v) {
+            RBNode w = removeNo(v);
             size--;
             return w;
         }
 
-        private AVLNode removeNo (int v) { 
-            AVLNode w = search(v);
+        public RBNode removeNo (int v) { 
+            RBNode w = search(v);
 
             if (w.Value != v) throw new Exception("Valor nao encontrado");
 
@@ -148,7 +147,7 @@ namespace AVLBinaryTree {
             return w;
         }
 
-        private int caseType (AVLNode n) {
+        private int caseType (RBNode n) {
             //Caso 0 - No raiz
             if (n == root && isExternal(n)) return 0;
             //Caso 1 - No folha
@@ -164,16 +163,16 @@ namespace AVLBinaryTree {
             root = null;
         }
 
-        private void removeLeaf (AVLNode n) {
-            AVLNode w = n.Parent;
+        private void removeLeaf (RBNode n) {
+            RBNode w = n.Parent;
             //Verifica de que lado n é filho e seta como nulo
             if (n == w.LeftChild) w.LeftChild = null;
             else w.RightChild = null;
         }
 
-        private void removeOneChild (AVLNode n) {
-            AVLNode w = n.Parent;
-            AVLNode z;
+        private void removeOneChild (RBNode n) {
+            RBNode w = n.Parent;
+            RBNode z;
 
             //Verifica de que lado está o filho de n
             if (n.LeftChild != null) z = n.LeftChild;
@@ -190,8 +189,8 @@ namespace AVLBinaryTree {
             }
         }
 
-        private void removeTwoChilds (AVLNode n) {
-            AVLNode s = findSuccessor(n.RightChild);
+        private void removeTwoChilds (RBNode n) {
+            RBNode s = findSuccessor(n.RightChild);
 
             if (s is not null) {
                 int t = s.Value;
@@ -200,89 +199,79 @@ namespace AVLBinaryTree {
             }
         }
 
-        public AVLNode findSuccessor (AVLNode n) {
+        public RBNode findSuccessor (RBNode n) {
             if (n.LeftChild != null) return findSuccessor(n.LeftChild);
             return n;
         }
 
-        // Metodos AVL
-        public AVLNode insertAVL (int v) {
-            AVLNode n = insert(v);
-            AVLNode i = n;
-            while (n.Parent is not null) {
-                // Atualiza fator de balanceamento
-                if (n.Parent.LeftChild == n) { n.Parent.Fb++; }
-                else { n.Parent.Fb--; }
+        // Metodos Rubro Negra
+        public RBNode insertRB (int v) {
+            RBNode n = insert(v);
+            n.LeftChild = new RBNode(n, null, 'B');
+            n.RightChild = new RBNode(n, null, 'B');
 
-                // Verifica se desbalanceou
-                if (Math.Abs(n.Parent.Fb) > 1) {
-                    balance(n);
-                    break;
+            RBNode u = getUncle(n);
+
+            while (!isRoot(n)) {
+                // Duplo rubro
+                if (n.Color == 'R' && n.Parent.Color == 'R') {
+                    insertBalance(n, u, n.Parent, n.Parent.Parent);
                 }
-                
-                n = n.Parent;
-            }
-
-            return i;
-        }
-
-        public AVLNode removeAVL (int v) {
-            /*AVLNode n = search(v);
-            AVLNode s;
-            if (caseType(n) == 2) { s = findSuccessor(n.RightChild); }
-            else { s = n; }*/
-
-            AVLNode n = remove(v);
-            //Console.WriteLine(s);
-            Console.WriteLine(n);
-            Console.WriteLine(n.Parent);
-            Console.WriteLine(n.LeftChild);
-            Console.WriteLine(n.Parent.LeftChild);
-            AVLNode r = n;
-            
-            while (n.Parent is not null) {
-                // Atualiza fator de balanceamento
-                if (n.Parent.LeftChild == n) {n.Parent.Fb--;}
-                else { n.Parent.Fb++; }
-
-                // Verifica se desbalanceou
-                if (Math.Abs(n.Parent.Fb) > 1) {
-                    balance(n);
-                    break;
-                }
-
-                if (n.Parent.Fb != 0) break;
 
                 n = n.Parent;
             }
 
-            return r;
+            root.Color = 'B';
+
+            return n;
+            /*// Verifica se no é raiz
+            if (isRoot(n)) {
+                n.Color = 'B';
+            }
+
+            // Inserção de nó com pai rubro
+            if (n.Parent.Color == 'R') {
+                // Tio rubro
+
+            }*/
         }
 
-        private void balance (AVLNode n) {
-            bool opposite = (isPositive(n.Parent.Fb) && !isPositive(n.Fb) || (!isPositive(n.Parent.Fb) && isPositive(n.Fb)));
-            bool positive = isPositive(n.Parent.Fb);
+        private void insertBalance (RBNode n, RBNode u, RBNode p, RBNode gp) {
+            // Tio rubro
+            if (u.Color = 'R') {
+                p.Color = 'B';
+                u.Color = 'B';
+                gp.Color = 'R';
+                if (!isRoot(gp) && (gp.Color == 'R' && gp.Parent.Color == 'R')) {
+                    insertBalance(gp, getUncle(gp), gp.Parent, gp.Parent.Parent);
+                }
+            }
+            else {
+                balanceRotation(n, p, gp);
+            }
+        }
 
+        private void balanceRotation (RBNode n, RBNode p, RBNode gp) {
             // Rotação 1 - Esquerda simples
-            if (!positive && !opposite) {
-                leftRotation(n.Parent, n);
+            if ((gp.RightChild == p) && (p.RightChild == n)) {
+                leftRotation(p, n);
             }
             // Rotação 2 - Direita simples
-            if (positive && !opposite) {
-                rightRotation(n.Parent, n);
+            if ((gp.LeftChild == p) && (p.LeftChild == n)) {
+                rightRotation(p, n);
             }
             // Rotação 3 - Esquerda dupla
-            if (!positive && opposite) {
+            if ((gp.LeftChild == p) && (p.RightChild == n)) {
                 rightRotation(n, n.LeftChild);
-                leftRotation(n.Parent.Parent, n.Parent);
+                leftRotation(gp, p);
             }
             // Rotação 4 - Direita dupla
-            if (positive && opposite) {
+            if ((gp.RightChild == p) && (p.LeftChild == n)) {
                 leftRotation(n, n.RightChild);
-                rightRotation(n.Parent.Parent, n.Parent);
+                rightRotation(gp, p);
             }
         }
-
+        
         private void leftRotation (AVLNode p, AVLNode n) {
             AVLNode lc = null;
             AVLNode rc = null;
@@ -356,9 +345,13 @@ namespace AVLBinaryTree {
             n.Fb = n.Fb - 1 + Math.Min(p.Fb, 0);
         }
 
-        private bool isPositive (int v) {
-            if (v > 0) return true;
-            else return false;
+        private RBNode getUncle (RBNode n) {
+            if (n.Parent.LeftChild == n) {
+                return n.Parent.RightChild;
+            }
+            else {
+                return n.Parent.LeftChild;
+            }
         }
 
         // Metodos Impressão
@@ -369,7 +362,7 @@ namespace AVLBinaryTree {
             Console.WriteLine(")");
         }
 
-        private void printElement (AVLNode n) {
+        private void printElement (RBNode n) {
             if (n is null) return;
             if (isInternal(n)) { printElement(n.LeftChild); }
             Console.Write(" " + n.Value + " ");
@@ -383,22 +376,22 @@ namespace AVLBinaryTree {
             setElements(root);
             
             int [,] matrix = new int[height(root)+1,size];
-            string [,] matrixFB = new string[height(root)+1,size];
-            setMatriz(matrix, matrixFB, elements);
-            printMatriz(matrix, matrixFB, height(root)+1, size);
+            string [,] matrixColor = new string[height(root)+1, size];
+            setMatriz(matrix, matrixColor, elements);
+            printMatriz(matrix, matrixColor, height(root)+1, size);
         }
 
-        private void printMatriz (int[,] m, string[,] mfb, int x, int y) {
+        private void printMatriz (int[,] m, string[,] mc , int x, int y) {
             for (int i = 0; i < x; i++) {
                 for (int j = 0; j < y; j++) {
-                    if (m[i,j] == 0) Console.Write("    ");
-                    else Console.Write(""+m[i, j]+"⁽"+mfb[i, j]+"⁾");
+                    if (m[i,j] == 0) Console.Write("   ");
+                    else Console.Write("" + m[i, j] + mc[i, j]);
                 }
                 Console.WriteLine();
             }
         }
 
-        private void setMatriz (int[,] m, string[,] mfb, ArrayList elements) {
+        private void setMatriz (int[,] m, string[,] mc, ArrayList elements) {
             int i = 0;
             //Inicia matriz
             for (i = 0; i < height(root); i++) {
@@ -410,32 +403,28 @@ namespace AVLBinaryTree {
             //Atribui elementos
             i = 0;
             foreach (object obj in elements) {
-                m[depth((AVLNode)obj), i] = ((AVLNode)obj).Value;
-                mfb[depth((AVLNode)obj), i] = miniFB(((AVLNode)obj).Fb);
+                m[depth((RBNode)obj), i] = ((RBNode)obj).Value;
+                mc[depth((RBNode)obj), i] = miniColor(((RBNode)obj).Color);
                 i++;
             }
         }
 
-        private void setElements (AVLNode n) {
+        private void setElements (RBNode n) {
             if (isInternal(n) && n.LeftChild is not null) setElements(n.LeftChild);
             elements.Add(n);
             if (isInternal(n) && n.RightChild is not null) setElements(n.RightChild);
         }
 
-        private string miniFB (int v) {
-            string fb = "";
-            if (v == 0) fb = "⁰";
-            else if (v == 1) fb = "¹";
-            else if (v == -1) fb = "⁻¹";
-            else if (v == 2) fb = "²";
-            else if (v == -2) fb = "⁻²";
+        private string miniColor (char c) {
+            string color = "";
+            if (c == 'R') color = "ᴿ";
+            else if (c == 'B') color = "ᴮ";
 
-            return fb;
+            return color;
         }
-
-        // Construtor
-        public AVLTree (int v) {
-            AVLNode r = new AVLNode(null, v);
+        
+        public RBTree (int v) {
+            RBNode r = new RBNode(null, v);
             root = r;
             size++;
         }

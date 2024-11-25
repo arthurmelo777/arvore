@@ -1,0 +1,15 @@
+/workspaces/arvore/rbtree/obj/Debug/net8.0/rbtree.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/arvore/rbtree/obj/Debug/net8.0/rbtree.AssemblyInfoInputs.cache
+/workspaces/arvore/rbtree/obj/Debug/net8.0/rbtree.AssemblyInfo.cs
+/workspaces/arvore/rbtree/obj/Debug/net8.0/rbtree.csproj.CoreCompileInputs.cache
+/workspaces/arvore/rbtree/obj/Debug/net8.0/rbtree.sourcelink.json
+/workspaces/arvore/rbtree/bin/Debug/net8.0/rbtree
+/workspaces/arvore/rbtree/bin/Debug/net8.0/rbtree.deps.json
+/workspaces/arvore/rbtree/bin/Debug/net8.0/rbtree.runtimeconfig.json
+/workspaces/arvore/rbtree/bin/Debug/net8.0/rbtree.dll
+/workspaces/arvore/rbtree/bin/Debug/net8.0/rbtree.pdb
+/workspaces/arvore/rbtree/obj/Debug/net8.0/rbtree.dll
+/workspaces/arvore/rbtree/obj/Debug/net8.0/refint/rbtree.dll
+/workspaces/arvore/rbtree/obj/Debug/net8.0/rbtree.pdb
+/workspaces/arvore/rbtree/obj/Debug/net8.0/rbtree.genruntimeconfig.cache
+/workspaces/arvore/rbtree/obj/Debug/net8.0/ref/rbtree.dll
